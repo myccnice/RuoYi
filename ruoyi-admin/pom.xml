@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>ruoyi</artifactId>
         <groupId>com.ruoyi</groupId>
@@ -43,7 +44,7 @@
             <version>1.6.2</version>
         </dependency>
 
-        <!-- Mysql驱动包 -->
+        <!-- MYSQL驱动包 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -54,19 +55,6 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-framework</artifactId>
         </dependency>
-
-        <!-- 定时任务-->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-quartz</artifactId>
-        </dependency>
-
-        <!-- 代码生成-->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-generator</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -76,7 +64,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.1.1.RELEASE</version>
                 <configuration>
-                    <fork>true</fork> <!-- 如果没有该配置，devtools不会生效 -->
+                    <!-- 如果没有该配置，DEVTOOLS不会生效 -->
+                    <fork>true</fork>
                 </configuration>
                 <executions>
                     <execution>
@@ -95,7 +84,7 @@
                     <warName>${project.artifactId}</warName>
                 </configuration>   
             </plugin>   
-            <!-- YUI Compressor (CSS/JS压缩) 
+            <!-- YUI Compressor (CSS/JS压缩) -->
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>yuicompressor-maven-plugin</artifactId>
@@ -126,7 +115,7 @@
                         <exclude>**/bootstrap-table/**</exclude>
                     </excludes>
                 </configuration>
-            </plugin> -->
+            </plugin>
         </plugins>
         <finalName>${project.artifactId}</finalName>
     </build>
