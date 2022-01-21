@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <th:block th:include="include :: header('修改套餐')" />
+    <th:block th:include="include :: header('修改客户')" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-post-edit" th:object="${setmeal}">
+        <form class="form-horizontal m" id="form-post-edit" th:object="${customer}">
             <input id="id" name="id" type="hidden" th:field="*{id}"/>
             <div class="form-group">
-                <label class="col-sm-3 control-label is-required">套餐名称：</label>
+                <label class="col-sm-3 control-label is-required">姓名：</label>
                 <div class="col-sm-8">
-                    <input class="form-control" type="text" name="name" id="name" th:field="*{name}" required>
+                    <input class="form-control" type="text" name="fullName" id="fullName" th:field="*{fullName}" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">套餐状态：</label>
+                <label class="col-sm-3 control-label is-required">电话：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
-                        <input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}" th:field="*{status}">
+                    <input class="form-control" type="text" name="phoneNumber" id="phoneNumber" th:field="*{phoneNumber}" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">性别：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_user_sex')}">
+                        <input type="radio" th:id="${dict.dictCode}" name="sex" th:value="${dict.dictValue}" th:field="*{sex}">
                         <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">套餐备注：</label>
+                <label class="col-sm-3 control-label">备注：</label>
                 <div class="col-sm-8">
                     <textarea id="remark" name="remark" class="form-control">[[*{remark}]]</textarea>
                 </div>
@@ -32,22 +38,22 @@
     </div>
     <th:block th:include="include :: footer" />
     <script type="text/javascript">
-        var prefix = ctx + "txs/setmeal";
+        var prefix = ctx + "txs/customer";
 
         $("#form-post-edit").validate({
             onkeyup: false,
             rules:{
-                name:{
+                phoneNumber:{
                     remote: {
-                        url: ctx + "system/setmeal/checkNameUnique",
+                        url: ctx + "system/customer/checkPhomeUnique",
                         type: "post",
                         dataType: "json",
                         data: {
                             "id": function() {
                                 return $("input[name='id']").val();
                             },
-                            "name" : function() {
-                                return $.common.trim($("#name").val());
+                            "phoneNumber" : function() {
+                                return $.common.trim($("#phoneNumber").val());
                             }
                         },
                         dataFilter: function(data, type) {
@@ -57,8 +63,8 @@
                 }
             },
             messages: {
-                "name": {
-                    remote: "套餐名称已经存在"
+                "phoneNumber": {
+                    remote: "客户电话已存在!"
                 }
             },
             focusCleanup: true

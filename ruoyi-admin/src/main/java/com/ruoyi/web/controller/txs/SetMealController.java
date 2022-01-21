@@ -97,11 +97,11 @@ public class SetMealController extends BaseController {
     @RequiresPermissions("txs:setmeal:edit")
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap) {
-        mmap.put("post", txsSetMealService.selectById(id));
+        mmap.put("setmeal", txsSetMealService.selectById(id));
         return prefix + "/edit";
     }
 
-    @RequiresPermissions("txs:post:edit")
+    @RequiresPermissions("txs:setmeal:edit")
     @Log(title = TITLE, businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -113,9 +113,9 @@ public class SetMealController extends BaseController {
         return toAjax(txsSetMealService.update(param));
     }
 
-    @PostMapping("/checkNameUnique")
     @ResponseBody
-    public String checkPostNameUnique(TxsSetMeal param) {
+    @PostMapping("/checkNameUnique")
+    public String checkNameUnique(TxsSetMeal param) {
         return txsSetMealService.checkUnique(param);
     }
 }
