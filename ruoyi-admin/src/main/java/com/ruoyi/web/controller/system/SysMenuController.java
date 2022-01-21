@@ -39,16 +39,14 @@ public class SysMenuController extends BaseController
 
     @RequiresPermissions("system:menu:view")
     @GetMapping()
-    public String menu()
-    {
+    public String menu() {
         return prefix + "/menu";
     }
 
     @RequiresPermissions("system:menu:list")
     @PostMapping("/list")
     @ResponseBody
-    public List<SysMenu> list(SysMenu menu)
-    {
+    public List<SysMenu> list(SysMenu menu) {
         Long userId = ShiroUtils.getUserId();
         List<SysMenu> menuList = menuService.selectMenuList(menu, userId);
         return menuList;
@@ -61,14 +59,11 @@ public class SysMenuController extends BaseController
     @RequiresPermissions("system:menu:remove")
     @GetMapping("/remove/{menuId}")
     @ResponseBody
-    public AjaxResult remove(@PathVariable("menuId") Long menuId)
-    {
-        if (menuService.selectCountMenuByParentId(menuId) > 0)
-        {
+    public AjaxResult remove(@PathVariable("menuId") Long menuId) {
+        if (menuService.selectCountMenuByParentId(menuId) > 0) {
             return AjaxResult.warn("存在子菜单,不允许删除");
         }
-        if (menuService.selectCountRoleMenuByMenuId(menuId) > 0)
-        {
+        if (menuService.selectCountRoleMenuByMenuId(menuId) > 0) {
             return AjaxResult.warn("菜单已分配,不允许删除");
         }
         AuthorizationUtils.clearAllCachedAuthorizationInfo();
@@ -79,15 +74,11 @@ public class SysMenuController extends BaseController
      * 新增
      */
     @GetMapping("/add/{parentId}")
-    public String add(@PathVariable("parentId") Long parentId, ModelMap mmap)
-    {
+    public String add(@PathVariable("parentId") Long parentId, ModelMap mmap) {
         SysMenu menu = null;
-        if (0L != parentId)
-        {
+        if (0L != parentId) {
             menu = menuService.selectMenuById(parentId);
-        }
-        else
-        {
+        } else {
             menu = new SysMenu();
             menu.setMenuId(0L);
             menu.setMenuName("主目录");
@@ -103,10 +94,9 @@ public class SysMenuController extends BaseController
     @RequiresPermissions("system:menu:add")
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(@Validated SysMenu menu)
-    {
-        if (UserConstants.MENU_NAME_NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu)))
-        {
+    public AjaxResult addSave(@Validated SysMenu menu) {
+        if (UserConstants.MENU_NAME_NOT_UNIQUE.equals(
+                menuService.checkMenuNameUnique(menu))) {
             return error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
         menu.setCreateBy(getLoginName());
