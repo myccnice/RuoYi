@@ -54,4 +54,46 @@ CREATE TABLE `txs_process`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
+-- ----------------------------
+-- Table structure for txs_order
+-- ----------------------------
+DROP TABLE IF EXISTS `txs_order`;
+CREATE TABLE `txs_order`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `customerId` bigint(20) UNSIGNED NOT NULL COMMENT '客户编号',
+  `payeeId` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '收款人编号',
+  `setMealId` bigint(20) NOT NULL COMMENT '套餐编号',
+  `orderNo` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单编号',
+  `payType` tinyint(1) UNSIGNED NULL DEFAULT 0 COMMENT '支付方式',
+  `payAmount` decimal(10, 3) UNSIGNED NOT NULL COMMENT '订单金额',
+  `currentProcess` bigint(20) UNSIGNED NOT NULL COMMENT '当前流程',
+  `status` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '订单状态',
+  `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '备注说明',
+  `createBy` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateBy` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '修改人',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_orderNo`(`orderNo`) USING BTREE COMMENT '订单编号索引'
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单信息表' ROW_FORMAT = DYNAMIC;
 
+-- ----------------------------
+-- Table structure for txs_order_process
+-- ----------------------------
+DROP TABLE IF EXISTS `txs_order_process`;
+CREATE TABLE `txs_order_process`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `orderNo` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单编号',
+  `processId` bigint(20) UNSIGNED NOT NULL COMMENT '流程编号',
+  `appointDays` int(11) UNSIGNED NULL DEFAULT 0 COMMENT '预约天数',
+  `status` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '流程状态',
+  `noticeEmpId` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '通知人编号',
+  `noticeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '通知时间',
+  `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '备注说明',
+  `createBy` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateBy` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '修改人',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_orderNo`(`orderNo`) USING BTREE COMMENT '订单编号索引'
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单信息表' ROW_FORMAT = DYNAMIC;

@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         UPDATE txs_process
         <set>
             <if test="name != null and name != ''">name = #{name},</if>
-            <if test="days != null and days != ''">days = #{days},</if>
+            <if test="days != null and days != 0">days = #{days},</if>
             <if test="remark != null and remark != ''">remark = #{remark},</if>
             <if test="updateBy != null and updateBy != ''">updateBy = #{updateBy},</if>
             <if test="updateTime != null">updateTime = #{updateTime},</if>

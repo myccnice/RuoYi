@@ -21,9 +21,9 @@ public class TxsOrderProcess extends BaseEntity {
     private static final long serialVersionUID = -2791639219352076906L;
 
     /**
-     * 订单ID
+     * 订单编号
      */
-    private Long orderId;
+    private String orderNo;
 
     /**
      * 流程ID
@@ -51,16 +51,4 @@ public class TxsOrderProcess extends BaseEntity {
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date noticeTime;
-
-    /**
-     * 开始时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date startTime;
-
-    /**
-     * 完成时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date finishTime;
 }

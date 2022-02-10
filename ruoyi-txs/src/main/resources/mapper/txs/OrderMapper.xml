@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.txs.mapper.OrderDao">
     <sql id="colums">
         id, customerId, payeeId, setMealId, orderNo, payType, payAmount, currentProcess,
-        remark, createBy, createTime, updateBy, updateTime
+        status, remark, createBy, createTime, updateBy, updateTime
     </sql>
     <select id="selectList" parameterType="TxsOrder" resultType="TxsOrder">
         SELECT <include refid="colums"/> FROM txs_order
@@ -21,6 +21,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
             <if test="setMealId != null and setMealId != 0">
                 AND setMealId = #{setMealId}
+            </if>
+            <if test="status != null and status != 0">
+                AND status = #{status}
             </if>
             <if test="payType != null and payType != 0">
                 AND payType = #{payType}
@@ -45,8 +48,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         UPDATE txs_order
         <set>
             <if test="name != null and name != ''">name = #{name},</if>
-            <if test="days != null days sex != ''">days = #{days},</if>
+            <if test="days != null and days != ''">days = #{days},</if>
             <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="status != null and status != 0">status = #{status},</if>
             <if test="updateBy != null and updateBy != ''">updateBy = #{updateBy},</if>
             <if test="updateTime != null">updateTime = #{updateTime},</if>
         </set>
@@ -54,7 +58,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
     <insert id="insert" parameterType="TxsOrder" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO txs_order(<include refid="colums"/>)values(
-            #{id}, #{name}, #{days}, #{deleted}, #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
+            #{id}, #{customerId}, #{payeeId}, #{setMealId}, #{orderNo},
+            #{payType}, #{payAmount}, #{currentProcess},
+            #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
         )
     </insert>
 </mapper> 
