@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org"
     xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('套餐管理')" />
+    <th:block th:include="include :: header('流程管理')" />
 </head>
 <body class="gray-bg">
     <div class="container-div">
@@ -12,16 +12,7 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                套餐名称：<input type="text" name="name"/>
-                            </li>
-                            <li>
-                                套餐价格：<input type="text" name="price"/>
-                            </li>
-                            <li>
-                                套餐状态：<select name="status" th:with="type=${@dict.getType('sys_normal_disable')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"/>
-                                </select>
+                                名称：<input type="text" name="name"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -32,16 +23,16 @@
                 </form>
             </div>
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="txs:setmeal:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="txs:process:add">
                     <i class="fa fa-plus"></i> 新增
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="txs:setmeal:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="txs:process:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="txs:setmeal:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="txs:process:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="txs:setmeal:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="txs:process:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -52,10 +43,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('txs:setmeal:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('txs:setmeal:remove')}]];
-        var datas = [[${@dict.getType('sys_normal_disable')}]];
-        var prefix = ctx + "txs/setmeal";
+        var editFlag = [[${@permission.hasPermi('txs:process:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('txs:process:remove')}]];
+        var prefix = ctx + "txs/process";
 
         $(function() {
             var options = {
@@ -65,26 +55,19 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 sortName: "id",
-                modalName: "套餐",
+                modalName: "流程",
                 columns: [{
                     checkbox: true
                 },
                 {
                     field: 'name',
-                    title: '套餐名称',
+                    title: '名称',
                     sortable: true
                 },
                 {
-                    field: 'status',
-                    title: '套餐状态',
-                    align: 'center',
-                    formatter: function(value, row, index) {
-                        return $.table.selectDictLabel(datas, value);
-                    }
-                },
-                {
-                    field: 'price',
-                    title: '套餐价格'
+                    field: 'days',
+                    title: '预约天数',
+                    align: 'center'
                 },
                 {
                     field: 'updateBy',

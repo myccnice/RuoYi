@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.txs.mapper.OrderDao">
+    <sql id="colums">
+        id, customerId, payeeId, setMealId, orderNo, payType, payAmount, currentProcess,
+        remark, createBy, createTime, updateBy, updateTime
+    </sql>
+    <select id="selectList" parameterType="TxsOrder" resultType="TxsOrder">
+        SELECT <include refid="colums"/> FROM txs_order
+        <where>
+            <if test="id != null and id != 0">
+                AND id = #{id}
+            </if>
+            <if test="customerId != null and customerId != 0">
+                AND customerId = #{customerId}
+            </if>
+            <if test="payeeId != null and payeeId != 0">
+                AND payeeId = #{payeeId}
+            </if>
+            <if test="setMealId != null and setMealId != 0">
+                AND setMealId = #{setMealId}
+            </if>
+            <if test="payType != null and payType != 0">
+                AND payType = #{payType}
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                AND `orderNo`like CONCAT('%', #{orderNo}, '%')
+            </if>
+            <!-- 开始时间检索 -->
+            <if test="params.beginTime != null and params.beginTime != ''">
+                AND date_format(createTime,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <!-- 结束时间检索 -->
+            <if test="params.endTime != null and params.endTime != ''">
+                AND date_format(createTime,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+    <select id="selectById" parameterType="Long" resultType="TxsOrder">
+        SELECT <include refid="colums"/> FROM txs_order WHERE id = #{id}
+    </select>
+    <update id="update" parameterType="TxsOrder">
+        UPDATE txs_order
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="days != null days sex != ''">days = #{days},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="updateBy != null and updateBy != ''">updateBy = #{updateBy},</if>
+            <if test="updateTime != null">updateTime = #{updateTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <insert id="insert" parameterType="TxsOrder" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO txs_order(<include refid="colums"/>)values(
+            #{id}, #{name}, #{days}, #{deleted}, #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
+        )
+    </insert>
+</mapper> 

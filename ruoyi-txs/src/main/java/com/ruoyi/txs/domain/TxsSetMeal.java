@@ -1,5 +1,7 @@
 package com.ruoyi.txs.domain;
 
+import java.math.BigDecimal;
+
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
@@ -26,6 +28,12 @@ public class TxsSetMeal extends BaseEntity {
     /**
      * 套餐状态（0正常 1停用）
      */
-    @Excel(name = "角色状态", readConverterExp = "0=正常,1=停用")
+    @Excel(name = "套餐状态", readConverterExp = "0=正常,1=停用")
     private String status;
+
+    /**
+     * 套餐价格
+     */
+    @Excel(name = "套餐价格")
+    private BigDecimal price;
 }
