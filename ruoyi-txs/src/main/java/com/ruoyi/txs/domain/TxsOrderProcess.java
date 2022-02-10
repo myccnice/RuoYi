@@ -1,5 +1,8 @@
 package com.ruoyi.txs.domain;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import lombok.Getter;
@@ -34,7 +37,30 @@ public class TxsOrderProcess extends BaseEntity {
     private int appointDays;
 
     /**
-     * 流程状态：0-等待通知；1-已通知客户；2-进行中；3-已完成
+     * 流程状态：1-等待通知；2-已通知客户；3-已完成
      */
     private int status;
+
+    /**
+     * 通知人编号
+     */
+    private Long noticeEmpId;
+
+    /**
+     * 通知时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date noticeTime;
+
+    /**
+     * 开始时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date startTime;
+
+    /**
+     * 完成时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date finishTime;
 }

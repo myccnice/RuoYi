@@ -1,5 +1,7 @@
 package com.ruoyi.txs.domain;
 
+import java.math.BigDecimal;
+
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import lombok.Getter;
@@ -43,12 +45,17 @@ public class TxsOrder extends BaseEntity {
     private int payType;
 
     /**
-     * 支付金额
+     * 订单金额
      */
-    private double payAmount;
+    private BigDecimal payAmount;
 
     /**
      * 当前流程
      */
     private Long currentProcess;
+
+    /**
+     * 订单状态：1、进行中；2、已完成；3、已取消
+     */
+    private int status;
 }
