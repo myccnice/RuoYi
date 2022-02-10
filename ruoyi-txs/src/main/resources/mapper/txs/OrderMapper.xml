@@ -63,4 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
         )
     </insert>
+    <select id="countToday" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM txs_order WHERE `orderNo`like CONCAT( #{date}, '_%')
+    </select>
 </mapper> 

@@ -23,5 +23,5 @@ public interface OrderDao {
     /**
      * 统计当天订单数量
      */
-    int countToday();
+    int countToday(String date);
 }

@@ -18,5 +18,5 @@ public interface OrderProcessDao {
 
     int update(TxsOrderProcess param);
 
-    int insert(TxsOrderProcess param);
+    Long insert(TxsOrderProcess param);
 }
