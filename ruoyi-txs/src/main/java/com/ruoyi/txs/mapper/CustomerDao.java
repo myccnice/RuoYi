@@ -27,7 +27,7 @@ public interface CustomerDao {
 
     int update(TxsCustomer param);
 
-    int insert(TxsCustomer param);
+    Long insert(TxsCustomer param);
 
     /**
      * 校验电话号码是否唯一

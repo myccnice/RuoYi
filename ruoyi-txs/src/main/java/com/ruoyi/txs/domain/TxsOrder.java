@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.annotation.Excel.ColumnType;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import lombok.Getter;
@@ -21,10 +22,13 @@ public class TxsOrder extends BaseEntity {
 
     private static final long serialVersionUID = -1190807358402794154L;
 
+    @Excel(name = "序号", cellType=ColumnType.NUMERIC, width = 4)
+    private Long serialNumber;
+
     /**
      * 订单编号
      */
-    @Excel(name = "订单编号")
+    @Excel(name = "订单编号", width = 13)
     private String orderNo;
 
     /**
@@ -32,8 +36,11 @@ public class TxsOrder extends BaseEntity {
      */
     private Long customerId;
 
-    @Excel(name = "客户姓名")
+    @Excel(name = "客户姓名", width = 4)
     private String customerName;
+
+    @Excel(name = "客户电话", width = 12)
+    private String customerPhone;
 
     /**
      * 付款日期
@@ -44,15 +51,13 @@ public class TxsOrder extends BaseEntity {
     /**
      * 支付方式
      */
-    @Excel(name = "支付方式", readConverterExp = "1=微信,2=支付宝,3=其他")
+    @Excel(name = "支付方式", dictType="sys_user_payment")
     private String payType;
 
     /**
      * 收款人
      */
-    private Long payeeId;
-
-    @Excel(name = "收款人")
+    @Excel(name = "收款人", width = 4)
     private String payeeName;
 
     /**
@@ -72,7 +77,7 @@ public class TxsOrder extends BaseEntity {
     /**
      * 是否选片：1、是；2、否
      */
-    @Excel(name = "是否选片", readConverterExp = "1=否,2=是")
+    @Excel(name = "是否选片", dictType="sys_yes_no")
     private String choosePhoto;
 
     /**
@@ -84,12 +89,12 @@ public class TxsOrder extends BaseEntity {
     /**
      * 是否领取成品
      */
-    @Excel(name = "是否领取成品", readConverterExp = "1=否,2=是")
+    @Excel(name = "是否领取成品", readConverterExp = "1=否,2=是", dictType="sys_yes_no")
     private String receiveFinishedProduct;
 
     /**
      * 订单金额
      */
-    @Excel(name = "订单金额")
+    @Excel(name = "订单金额", cellType=ColumnType.NUMERIC)
     private BigDecimal payAmount;
 }

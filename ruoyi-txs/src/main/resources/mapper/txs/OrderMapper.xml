@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.txs.mapper.OrderDao">
     <sql id="colums">
-        id, orderNo, customerId, payTime, payType, payeeId, setMealId, 
+        id, orderNo, customerId, payTime, payType, payeeName, setMealId, 
         photographTime, choosePhoto, laterConsumption, receiveFinishedProduct,
         payAmount, remark, createBy, createTime, updateBy, updateTime
     </sql>
@@ -17,8 +17,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="customerId != null and customerId != 0">
                 AND customerId = #{customerId}
             </if>
-            <if test="payeeId != null and payeeId != 0">
-                AND payeeId = #{payeeId}
+            <if test="payeeName != null and payeeName != 0">
+                AND `payeeName`like CONCAT('%', #{payeeName}, '%')
             </if>
             <if test="setMealId != null and setMealId != 0">
                 AND setMealId = #{setMealId}
@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insert" parameterType="TxsOrder" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO txs_order(<include refid="colums"/>)values(
             #{id}, #{orderNo}, #{customerId}, #{payTime}, #{payType},
-            #{payeeId}, #{setMealId}, #{photographTime}, #{choosePhoto}, 
+            #{payeeName}, #{setMealId}, #{photographTime}, #{choosePhoto}, 
             #{laterConsumption}, #{receiveFinishedProduct}, #{payAmount},
             #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
         )

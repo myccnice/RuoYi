@@ -59,9 +59,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </set>
         WHERE id = #{id}
     </update>
-    <insert id="insert" parameterType="TxsCustomer" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO txs_customer(<include refid="colums"/>)values(
-            #{id}, #{fullName}, #{sex}, #{phoneNumber}, #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
+    <insert id="insert" parameterType="TxsCustomer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO txs_customer(
+            fullName, sex, phoneNumber, remark, createBy, createTime, updateBy, updateTime
+        )values(
+            #{fullName}, #{sex}, #{phoneNumber}, #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
         )
     </insert>
     <select id="checkUnique" parameterType="String" resultType="TxsCustomer">

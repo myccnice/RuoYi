@@ -12,16 +12,10 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                姓名：<input type="text" name="fullName"/>
+                                单号：<input type="text" name="orderNo"/>
                             </li>
                             <li>
-                                性别：<select name="sex" th:with="type=${@dict.getType('sys_user_sex')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"/>
-                                </select>
-                            </li>
-                            <li>
-                                电话：<input type="text" name="phoneNumber"/>
+                                电话：<input type="text" name="customerPhone"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -54,7 +48,8 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('txs:order:edit')}]];
         var removeFlag = [[${@permission.hasPermi('txs:order:remove')}]];
-        var datas = [[${@dict.getType('sys_user_sex')}]];
+        var payments = [[${@dict.getType('sys_user_payment')}]];
+        var whethers = [[${@dict.getType('sys_yes_no')}]];
         var prefix = ctx + "txs/order";
 
         $(function() {
@@ -70,42 +65,71 @@
                     checkbox: true
                 },
                 {
-                    field: 'fullName',
-                    title: '姓名',
-                    sortable: true
+                    field: 'orderNo',
+                    title: '订单编号'
                 },
                 {
-                    field: 'sex',
-                    title: '性别',
-                    align: 'center',
+                    field: 'customerName',
+                    title: '客户姓名',
+                    align: 'center'
+                },
+                {
+                    field: 'customerPhone',
+                    title: '客户电话',
+                    align: 'center'
+                },
+                {
+                    field: 'payTime',
+                    title: '付款日期',
                     formatter: function(value, row, index) {
-                        return $.table.selectDictLabel(datas, value);
+                        return value.slice(0, 10);
                     }
                 },
                 {
-                    field: 'phoneNumber',
-                    title: '电话',
-                    sortable: true
+                    field: 'payType',
+                    title: '支付方式',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(payments, value);
+                    }
                 },
                 {
-                    field: 'updateBy',
-                    title: '最近修改人',
-                    sortable: true
+                    field: 'payeeName',
+                    title: '收款人',
+                    align: 'center'
                 },
                 {
-                    field: 'updateTime',
-                    title: '最近修改时间',
-                    sortable: true
+                    field: 'setMealName',
+                    title: '套餐',
+                    align: 'center'
                 },
                 {
-                    field: 'createBy',
-                    title: '创建人',
-                    sortable: true
+                    field: 'photographTime',
+                    title: '拍摄时间',
+                    formatter: function(value, row, index) {
+                        return value.slice(0, 10);
+                    }
                 },
                 {
-                    field: 'createTime',
-                    title: '创建时间',
-                    sortable: true
+                    field: 'choosePhoto',
+                    title: '是否选片',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(whethers, value);
+                    }
+                },
+                {
+                    field: 'receiveFinishedProduct',
+                    title: '是否领取成品',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                    	console.log('-' + value)
+                        return $.table.selectDictLabel(whethers, value);
+                    }
+                },
+                {
+                    field: 'remark',
+                    title: '备注'
                 },
                 {
                     title: '操作',

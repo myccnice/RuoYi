@@ -64,7 +64,8 @@ public class TxsCustomerServiceImpl implements TxsCustomerService {
     public int insert(TxsCustomer param) {
         param.setUpdateTime(new Date());
         param.setCreateTime(new Date());
-        return dao.insert(param);
+        param.setId(dao.insert(param));
+        return 1;
     }
 
     @Override
@@ -97,6 +98,7 @@ public class TxsCustomerServiceImpl implements TxsCustomerService {
             TxsCustomer customer = customerMap.get(order.getCustomerId());
             if (customer != null) {
                 order.setCustomerName(customer.getFullName());
+                order.setCustomerPhone(customer.getPhoneNumber());
             }
         }
     }
