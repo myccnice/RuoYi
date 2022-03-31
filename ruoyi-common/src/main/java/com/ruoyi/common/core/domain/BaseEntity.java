@@ -3,6 +3,7 @@ package com.ruoyi.common.core.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -47,4 +48,6 @@ public class BaseEntity implements Serializable {
 
     /** 请求参数 */
     private Map<String, Object> params = new HashMap<>();
+
+    private List<Long> idList;
 }

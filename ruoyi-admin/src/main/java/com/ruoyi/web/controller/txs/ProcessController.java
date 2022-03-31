@@ -42,7 +42,7 @@ public class ProcessController extends BaseController {
 
     @GetMapping()
     @RequiresPermissions("txs:process:view")
-    public String user() {
+    public String process() {
         return prefix + "/index";
     }
 

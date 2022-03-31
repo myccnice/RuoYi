@@ -1,7 +1,9 @@
 package com.ruoyi.txs.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
+import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import lombok.Getter;
@@ -20,42 +22,74 @@ public class TxsOrder extends BaseEntity {
     private static final long serialVersionUID = -1190807358402794154L;
 
     /**
+     * 订单编号
+     */
+    @Excel(name = "订单编号")
+    private String orderNo;
+
+    /**
      * 客户编号
      */
     private Long customerId;
 
+    @Excel(name = "客户姓名")
+    private String customerName;
+
     /**
-     * 收款人编号
+     * 付款日期
+     */
+    @Excel(name = "付款日期", dateFormat="yyyy-MM-dd")
+    private Date payTime;
+
+    /**
+     * 支付方式
+     */
+    @Excel(name = "支付方式", readConverterExp = "1=微信,2=支付宝,3=其他")
+    private String payType;
+
+    /**
+     * 收款人
      */
     private Long payeeId;
+
+    @Excel(name = "收款人")
+    private String payeeName;
 
     /**
      * 套餐编号
      */
     private Long setMealId;
 
-    /**
-     * 订单编号
-     */
-    private String orderNo;
+    @Excel(name = "套餐")
+    private String setMealName;
 
     /**
-     * 支付方式
+     * 拍摄日期
      */
-    private int payType;
+    @Excel(name = "拍摄日期", dateFormat="yyyy-MM-dd")
+    private Date photographTime;
+
+    /**
+     * 是否选片：1、是；2、否
+     */
+    @Excel(name = "是否选片", readConverterExp = "1=否,2=是")
+    private String choosePhoto;
+
+    /**
+     * 后期消费
+     */
+    @Excel(name = "后期消费")
+    private String laterConsumption;
+
+    /**
+     * 是否领取成品
+     */
+    @Excel(name = "是否领取成品", readConverterExp = "1=否,2=是")
+    private String receiveFinishedProduct;
 
     /**
      * 订单金额
      */
+    @Excel(name = "订单金额")
     private BigDecimal payAmount;
-
-    /**
-     * 当前流程
-     */
-    private Long currentProcess;
-
-    /**
-     * 订单状态：1、进行中；2、已完成；3、已取消
-     */
-    private int status;
 }

@@ -3,6 +3,7 @@ package com.ruoyi.txs.service;
 import java.util.List;
 
 import com.ruoyi.txs.domain.TxsCustomer;
+import com.ruoyi.txs.domain.TxsOrder;
 
 /**
  * 客户管理业务层
@@ -37,4 +38,6 @@ public interface TxsCustomerService {
      * @return 结果
      */
     String checkUnique(TxsCustomer param);
+
+    void wrapForOrder(List<TxsOrder> orders);
 }

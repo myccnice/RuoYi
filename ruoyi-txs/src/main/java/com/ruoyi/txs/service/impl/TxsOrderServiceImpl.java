@@ -1,17 +1,17 @@
 package com.ruoyi.txs.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.txs.domain.TxsOrder;
-import com.ruoyi.txs.domain.TxsOrderProcess;
-import com.ruoyi.txs.domain.TxsProcess;
 import com.ruoyi.txs.mapper.OrderDao;
-import com.ruoyi.txs.mapper.OrderProcessDao;
+import com.ruoyi.txs.service.TxsCustomerService;
 import com.ruoyi.txs.service.TxsOrderService;
-import com.ruoyi.txs.service.TxsProcessService;
+import com.ruoyi.txs.service.TxsSetMealService;
 
 /**
  * 订单管理业务层实现类
@@ -25,16 +25,14 @@ public class TxsOrderServiceImpl implements TxsOrderService {
     @Autowired
     private OrderDao orderDao;
     @Autowired
-    private OrderProcessDao orderProcessDao;
+    private TxsCustomerService txsCustomerService;
     @Autowired
-    private TxsProcessService processService;
+    private TxsSetMealService txsSetMealService;
 
     @Override
     @Transactional
-    public long insert(TxsOrder param) {
+    public int insert(TxsOrder param) {
         param.setOrderNo(bulidOrderNo());
-        param.setCurrentProcess(buildOrderProcess(param));
-        param.setStatus(1);
         return orderDao.insert(param);
     }
 
@@ -44,16 +42,24 @@ public class TxsOrderServiceImpl implements TxsOrderService {
         int sequenceNum = countToday + 1;
         return date + "_" + String.format("%03d", sequenceNum); 
     }
-    
-    private Long buildOrderProcess(TxsOrder order) {
-        TxsOrderProcess top = new TxsOrderProcess();
-        top.setOrderNo(order.getOrderNo());
-        top.setProcessId(order.getCurrentProcess());
-        TxsProcess process = processService.selectById(order.getCurrentProcess());
-        if (process != null && process.getDays() > 0) {
-            top.setAppointDays(process.getDays());
-        }
-        top.setStatus(1);
-        return orderProcessDao.insert(top);
+
+    @Override
+    public List<TxsOrder> selectList(TxsOrder param) {
+        List<TxsOrder> orders = orderDao.selectList(param);
+        // 设置客户姓名
+        txsCustomerService.wrapForOrder(orders);
+        // 设置套餐名称
+        txsSetMealService.wrapForOrder(orders);
+        return orders;
+    }
+
+    @Override
+    public TxsOrder selectById(Long id) {
+        return orderDao.selectById(id);
+    }
+
+    @Override
+    public int update(TxsOrder param) {
+        return orderDao.update(param);
     }
 }

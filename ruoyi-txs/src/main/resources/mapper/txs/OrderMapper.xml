@@ -4,8 +4,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.txs.mapper.OrderDao">
     <sql id="colums">
-        id, customerId, payeeId, setMealId, orderNo, payType, payAmount, currentProcess,
-        status, remark, createBy, createTime, updateBy, updateTime
+        id, orderNo, customerId, payTime, payType, payeeId, setMealId, 
+        photographTime, choosePhoto, laterConsumption, receiveFinishedProduct,
+        payAmount, remark, createBy, createTime, updateBy, updateTime
     </sql>
     <select id="selectList" parameterType="TxsOrder" resultType="TxsOrder">
         SELECT <include refid="colums"/> FROM txs_order
@@ -22,22 +23,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="setMealId != null and setMealId != 0">
                 AND setMealId = #{setMealId}
             </if>
-            <if test="status != null and status != 0">
-                AND status = #{status}
-            </if>
-            <if test="payType != null and payType != 0">
-                AND payType = #{payType}
-            </if>
             <if test="orderNo != null and orderNo != ''">
                 AND `orderNo`like CONCAT('%', #{orderNo}, '%')
             </if>
             <!-- 开始时间检索 -->
             <if test="params.beginTime != null and params.beginTime != ''">
-                AND date_format(createTime,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                AND date_format(payTime,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
             </if>
             <!-- 结束时间检索 -->
             <if test="params.endTime != null and params.endTime != ''">
-                AND date_format(createTime,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                AND date_format(payTime,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
             </if>
         </where>
     </select>
@@ -47,10 +42,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="update" parameterType="TxsOrder">
         UPDATE txs_order
         <set>
-            <if test="name != null and name != ''">name = #{name},</if>
-            <if test="days != null and days != ''">days = #{days},</if>
+            <if test="laterConsumption != null and laterConsumption != ''">laterConsumption = #{laterConsumption},</if>
+            <if test="choosePhoto != null">choosePhoto = #{choosePhoto},</if>
+            <if test="photographTime != null">photographTime = #{photographTime},</if>
+            <if test="payAmount != null">payAmount = #{payAmount},</if>
+            <if test="receiveFinishedProduct != null and receiveFinishedProduct != ''">
+                receiveFinishedProduct = #{receiveFinishedProduct},
+            </if>
             <if test="remark != null and remark != ''">remark = #{remark},</if>
-            <if test="status != null and status != 0">status = #{status},</if>
             <if test="updateBy != null and updateBy != ''">updateBy = #{updateBy},</if>
             <if test="updateTime != null">updateTime = #{updateTime},</if>
         </set>
@@ -58,8 +57,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
     <insert id="insert" parameterType="TxsOrder" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO txs_order(<include refid="colums"/>)values(
-            #{id}, #{customerId}, #{payeeId}, #{setMealId}, #{orderNo},
-            #{payType}, #{payAmount}, #{currentProcess},
+            #{id}, #{orderNo}, #{customerId}, #{payTime}, #{payType},
+            #{payeeId}, #{setMealId}, #{photographTime}, #{choosePhoto}, 
+            #{laterConsumption}, #{receiveFinishedProduct}, #{payAmount},
             #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
         )
     </insert>

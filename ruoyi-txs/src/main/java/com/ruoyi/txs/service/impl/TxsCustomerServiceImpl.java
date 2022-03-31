@@ -2,6 +2,7 @@ package com.ruoyi.txs.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.CollectionUtil;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.txs.domain.TxsCustomer;
+import com.ruoyi.txs.domain.TxsOrder;
 import com.ruoyi.txs.mapper.CustomerDao;
 import com.ruoyi.txs.service.TxsCustomerService;
 
@@ -71,5 +74,30 @@ public class TxsCustomerServiceImpl implements TxsCustomerService {
             return UserConstants.POST_NAME_NOT_UNIQUE;
         }
         return UserConstants.POST_NAME_UNIQUE;
+    }
+
+    @Override
+    public void wrapForOrder(List<TxsOrder> orders) {
+        if (CollectionUtil.isEmpty(orders)) {
+            return;
+        }
+        List<Long> customerIdList = CollectionUtil.getLongList(
+                orders, TxsOrder::getCustomerId);
+        if (CollectionUtil.isEmpty(customerIdList)) {
+            return;
+        }
+        TxsCustomer param = new TxsCustomer();
+        param.setIdList(customerIdList);
+        List<TxsCustomer> customerList = selectList(param);
+        if (CollectionUtil.isEmpty(customerList)) {
+            return;
+        }
+        Map<Long, TxsCustomer> customerMap = CollectionUtil.toMap(customerList);
+        for (TxsOrder order : orders) {
+            TxsCustomer customer = customerMap.get(order.getCustomerId());
+            if (customer != null) {
+                order.setCustomerName(customer.getFullName());
+            }
+        }
     }
 }

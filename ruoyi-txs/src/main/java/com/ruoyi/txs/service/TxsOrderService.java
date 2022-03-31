@@ -1,5 +1,7 @@
 package com.ruoyi.txs.service;
 
+import java.util.List;
+
 import com.ruoyi.txs.domain.TxsOrder;
 
 /**
@@ -15,5 +17,11 @@ public interface TxsOrderService {
      * @param param 订单参数
      * @return  成功数量
      */
-    long insert(TxsOrder param);
+    int insert(TxsOrder param);
+
+    List<TxsOrder> selectList(TxsOrder param);
+
+    TxsOrder selectById(Long id);
+
+    int update(TxsOrder param);
 }

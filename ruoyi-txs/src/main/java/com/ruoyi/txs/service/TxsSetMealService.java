@@ -2,6 +2,7 @@ package com.ruoyi.txs.service;
 
 import java.util.List;
 
+import com.ruoyi.txs.domain.TxsOrder;
 import com.ruoyi.txs.domain.TxsSetMeal;
 
 /**
@@ -37,4 +38,6 @@ public interface TxsSetMealService {
      * @return 结果
      */
     String checkUnique(TxsSetMeal param);
+
+    void wrapForOrder(List<TxsOrder> orders);
 }
