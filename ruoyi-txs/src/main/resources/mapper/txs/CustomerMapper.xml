@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="phoneNumber != null and phoneNumber != ''">
                 AND `phoneNumber`like CONCAT('%', #{phoneNumber}, '%')
             </if>
-            <if test="fullName != null and fullName != ''">
+            <if test="remark != null and remark != ''">
                 AND `remark`like CONCAT('%', #{remark}, '%')
             </if>
             <!-- 开始时间检索 -->
