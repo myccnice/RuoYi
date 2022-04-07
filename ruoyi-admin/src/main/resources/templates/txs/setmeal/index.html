@@ -64,10 +64,16 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
+                uniqueId: "id",
                 sortName: "id",
                 modalName: "套餐",
                 columns: [{
                     checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: '套餐编号',
+                    visible: false
                 },
                 {
                     field: 'name',

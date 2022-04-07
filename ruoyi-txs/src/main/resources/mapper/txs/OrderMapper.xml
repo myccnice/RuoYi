@@ -35,9 +35,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="customerPhone != null and customerPhone != ''">
                 AND c.`phoneNumber`like CONCAT('%', #{customerPhone}, '%')
             </if>
-            <if test="setMealIdList != nulll and setMealIdList.size() > 0">
+            <if test="setMealIdList != null and setMealIdList.size() > 0">
                 AND o.setMealId IN
-                <foreach collection="array" item="id" open="(" separator="," close=")">#{id}</foreach>
+                <foreach collection="setMealIdList" item="id" open="(" separator="," close=")">#{id}</foreach>
             </if>
             <!-- 开始时间检索 -->
             <if test="params.beginTime != null and params.beginTime != ''">
