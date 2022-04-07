@@ -2,6 +2,7 @@ package com.ruoyi.txs.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.annotation.Excel.ColumnType;
@@ -97,4 +98,9 @@ public class TxsOrder extends BaseEntity {
      */
     @Excel(name = "订单金额", cellType=ColumnType.NUMERIC)
     private BigDecimal payAmount;
+
+    /**
+     * 套餐ID列表查询
+     */
+    private List<Long> setMealIdList;
 }

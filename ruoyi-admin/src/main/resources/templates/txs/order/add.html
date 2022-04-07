@@ -42,9 +42,9 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label is-required">套餐：</label>
                 <div class="col-sm-8">
-                    <select class="form-control" name="setMealId">
-                        <option value="0">--选择套餐--</option>
-                        <option value="1">常规套餐</option>
+                    <select class="form-control" name="setMealId" required>
+                        <option value="">--选择套餐--</option>
+                        <option th:each="t:${setMeals}" th:value="${t.id}" th:text="${t.name}">
                     </select>
                 </div>
             </div>
@@ -67,10 +67,11 @@
     <script type="text/javascript">
         var prefix = ctx + "txs/order";
         $(function(){
-            $("#payTime").datetimepicker({
-            	format: "yyyy-mm-dd",
-                minView: "month",
-                autoclose: true
+            layui.use(['laydate'], function(){
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: '#payTime'
+                });
             });
         });
         function submitHandler() {

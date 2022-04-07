@@ -21,6 +21,7 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.txs.domain.TxsOrder;
 import com.ruoyi.txs.service.TxsOrderService;
+import com.ruoyi.txs.service.TxsSetMealService;
 
 /**
  * 订单信息
@@ -35,7 +36,9 @@ public class OrderController extends BaseController {
     private static final String TITLE = "订单管理";
 
     @Autowired
-    private TxsOrderService service;
+    private TxsOrderService orderService;
+    @Autowired
+    private TxsSetMealService tsmService;
 
     @GetMapping()
     @RequiresPermissions("txs:order:view")
@@ -48,7 +51,7 @@ public class OrderController extends BaseController {
     @RequiresPermissions("txs:order:list")
     public TableData<TxsOrder> list(TxsOrder param) {
         startPage();
-        List<TxsOrder> list = service.selectList(param);
+        List<TxsOrder> list = orderService.selectList(param);
         return TableData.getInfo(list);
     }
 
@@ -57,13 +60,14 @@ public class OrderController extends BaseController {
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(TxsOrder param) {
-        List<TxsOrder> list = service.selectList(param);
+        List<TxsOrder> list = orderService.selectList(param);
         ExcelUtil<TxsOrder> util = new ExcelUtil<TxsOrder>(TxsOrder.class);
         return util.exportExcel(list, "订单数据");
     }
 
     @GetMapping("/add")
-    public String add() {
+    public String add(ModelMap mmap) {
+        mmap.put("setMeals", tsmService.getEnabledList(null));
         return prefix + "/add";
     }
 
@@ -75,13 +79,15 @@ public class OrderController extends BaseController {
         String loginName = getLoginName();
         param.setCreateBy(loginName);
         param.setUpdateBy(loginName);
-        return toAjax(service.insert(param));
+        return toAjax(orderService.insert(param));
     }
 
     @RequiresPermissions("txs:order:edit")
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap) {
-        mmap.put("order", service.selectById(id));
+        TxsOrder order = orderService.selectById(id);
+        mmap.put("setMeals", tsmService.getEnabledList(order.getSetMealId()));
+        mmap.put("order", order);
         return prefix + "/edit";
     }
 
@@ -91,6 +97,6 @@ public class OrderController extends BaseController {
     @ResponseBody
     public AjaxResult editSave(@Validated TxsOrder param) {
         param.setUpdateBy(getLoginName());
-        return toAjax(service.update(param));
+        return toAjax(orderService.update(param));
     }
 }

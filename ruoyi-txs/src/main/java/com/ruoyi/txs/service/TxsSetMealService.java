@@ -40,4 +40,9 @@ public interface TxsSetMealService {
     String checkUnique(TxsSetMeal param);
 
     void wrapForOrder(List<TxsOrder> orders);
+
+    /**
+     * 获取所有启用的套餐
+     */
+    List<TxsSetMeal> getEnabledList(Long id);
 }

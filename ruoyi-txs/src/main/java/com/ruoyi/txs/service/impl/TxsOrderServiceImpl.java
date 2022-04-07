@@ -1,6 +1,7 @@
 package com.ruoyi.txs.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class TxsOrderServiceImpl implements TxsOrderService {
         String date = YYYY_MM_DD.format(new Date());
         int countToday = orderDao.countToday(date);
         int sequenceNum = countToday + 1;
-        return date + "_" + String.format("%03d", sequenceNum); 
+        return date + String.format("%03d", sequenceNum); 
     }
 
     private void wrapCustomer(TxsOrder order) {
@@ -93,11 +94,22 @@ public class TxsOrderServiceImpl implements TxsOrderService {
 
     @Override
     public TxsOrder selectById(Long id) {
-        return orderDao.selectById(id);
+        TxsOrder order = orderDao.selectById(id);
+        txsCustomerService.wrapForOrder(Arrays.asList(order));
+        return order;
     }
 
     @Override
     public int update(TxsOrder param) {
+        if (param.getCustomerId() == null) {
+            TxsOrder old = orderDao.selectById(param.getId());
+            param.setCustomerId(old.getCustomerId());
+        }
+        TxsCustomer customer = new TxsCustomer();
+        customer.setId(param.getId());
+        customer.setFullName(param.getCustomerName());
+        customer.setPhoneNumber(param.getCustomerPhone());
+        txsCustomerService.update(customer);
         return orderDao.update(param);
     }
 }

@@ -82,8 +82,7 @@ public class TxsCustomerServiceImpl implements TxsCustomerService {
         if (CollectionUtil.isEmpty(orders)) {
             return;
         }
-        List<Long> customerIdList = CollectionUtil.getLongList(
-                orders, TxsOrder::getCustomerId);
+        List<Long> customerIdList = CollectionUtil.getList(orders, TxsOrder::getCustomerId);
         if (CollectionUtil.isEmpty(customerIdList)) {
             return;
         }

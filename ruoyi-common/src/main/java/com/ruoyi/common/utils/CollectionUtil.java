@@ -24,11 +24,10 @@ public class CollectionUtil {
     }
 
     public static <E extends BaseEntity> List<Long> getIdList(List<E> list) {
-        return getLongList(list, E::getId);
+        return getList(list, E::getId);
     }
 
-    public static <E extends BaseEntity> List<Long> getLongList(
-            List<E> list, Function<E, Long> mapper) {
+    public static <E extends BaseEntity, R> List<R> getList(List<E> list, Function<E, R> mapper) {
         if (isEmpty(list)) {
             return Collections.emptyList();
         }
