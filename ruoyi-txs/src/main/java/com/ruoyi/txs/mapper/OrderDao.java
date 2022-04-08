@@ -24,4 +24,14 @@ public interface OrderDao {
      * 统计当天订单数量
      */
     int countToday(String date);
+
+    /**
+     * 查询还未拍摄的订单
+     */
+    List<TxsOrder> queryNotPhotograph();
+
+    /**
+     * 查询未选片的订单
+     */
+    List<TxsOrder> queryNotChoosePhoto();
 }

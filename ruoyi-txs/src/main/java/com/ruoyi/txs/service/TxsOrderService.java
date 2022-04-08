@@ -24,4 +24,10 @@ public interface TxsOrderService {
     TxsOrder selectById(Long id);
 
     int update(TxsOrder param);
+
+    List<TxsOrder> queryNotPhotograph();
+
+    List<TxsOrder> queryNotChoosePhoto();
+
+    List<TxsOrder> notFinishedOrderList();
 }

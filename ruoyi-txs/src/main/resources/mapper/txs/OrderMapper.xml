@@ -29,6 +29,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderNo != null and orderNo != ''">
                 AND o.`orderNo`like CONCAT('%', #{orderNo}, '%')
             </if>
+            <if test="choosePhoto != null and choosePhoto != 0">
+                AND o.`choosePhoto` = #{choosePhoto}
+            </if>
+            <if test="receiveFinishedProduct != null and receiveFinishedProduct != 0">
+                AND o.`receiveFinishedProduct` = #{receiveFinishedProduct}
+            </if>
             <if test="customerName != null and customerName != ''">
                 AND c.`fullName`like CONCAT('%', #{customerName}, '%')
             </if>
@@ -81,5 +87,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     <select id="countToday" parameterType="String" resultType="Integer">
         SELECT COUNT(*) FROM txs_order WHERE `orderNo`like CONCAT( #{date}, '_%')
+    </select>
+    <select id="queryNotPhotograph" parameterType="TxsOrder" resultType="TxsOrder">
+        SELECT <include refid="colums"/> FROM txs_order 
+        WHERE photographTime &gt; now() OR photographTime IS NULL
+        ORDER BY photographTime ASC
+    </select>
+    <select id="queryNotChoosePhoto" parameterType="TxsOrder" resultType="TxsOrder">
+        SELECT <include refid="colums"/> FROM txs_order 
+        WHERE photographTime IS NOT NULL AND photographTime &lt; now() AND choosePhoto = '2'
+        ORDER BY photographTime ASC
     </select>
 </mapper> 

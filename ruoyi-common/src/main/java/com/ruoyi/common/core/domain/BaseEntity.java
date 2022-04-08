@@ -49,5 +49,6 @@ public class BaseEntity implements Serializable {
     /** 请求参数 */
     private Map<String, Object> params = new HashMap<>();
 
+    /** id列表查询 */
     private List<Long> idList;
 }

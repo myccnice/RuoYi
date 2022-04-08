@@ -1,55 +1,120 @@
 <!DOCTYPE html>
-<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--360浏览器优先以webkit内核解析-->
-    <title>兔先生介绍</title>
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
-    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
-    <link href="../static/css/style.min.css" th:href="@{/css/style.min.css}" rel="stylesheet"/>
+    <th:block th:include="include :: header('首页')" />
 </head>
 
 <body class="gray-bg">
-    <div class="row border-bottom white-bg dashboard-header">
-        <div class="col-sm-12">
-            
-        </div>
-        <div class="col-sm-5">
-            <h2>兔先生后台管理框架</h2>
-        </div>
-    </div>
-    <div class="wrapper wrapper-content">
+    <div class="container-div">
         <div class="row">
-            <div class="col-sm-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>联系信息</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <p><i class="fa fa-send-o"></i> 地址：河南省沁阳市</p>
-                        <p><i class="fa fa-weixin"></i> 电话：18108206336</p>
-                    </div>
-                </div>
+            <div class="btn-group-sm" id="toolbar">
+                <a class="btn btn-success countTag" href="javascript:void(0);" id="photograph">
+                    <span class="badge" id="photographSpan">0</span>&nbsp;未拍摄
+                </a>
+                <a class="btn btn-primary countTag" href="javascript:void(0);" id="choose">
+                    <span class="badge" id="chooseSpan">0</span> 未选片
+                </a>
+                <a class="btn btn-warning countTag" href="javascript:void(0);" id="finished">
+                    <span class="badge" id="finishedSpan">0</span> 未领取成品
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
             </div>
         </div>
     </div>
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
-    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
-    <script type="text/javascript">
-	    $('#pay-qrcode').click(function(){
-	        var html=$(this).html();
-	        parent.layer.open({
-	            title: false,
-	            type: 1,
-	            closeBtn:false,
-	            shadeClose:true,
-	            area: ['600px', '360px'],
-	            content: html
-	        });
-	    });
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var payments = [[${@dict.getType('sys_user_payment')}]];
+        var whethers = [[${@dict.getType('sys_yes_no')}]];
+        $(function(){
+        	console.log([[${isMobile}]]);
+            var options = {
+                    url: "/txs/index/photograph",
+                    striped: true,
+                    columns: [{
+                        field: 'orderNo',
+                        title: '订单编号'
+                    },
+                    {
+                        field: 'customerName',
+                        title: '客户姓名',
+                        align: 'center'
+                    },
+                    {
+                        field: 'customerPhone',
+                        title: '客户电话',
+                        align: 'center'
+                    },
+                    {
+                        field: 'payTime',
+                        title: '付款日期',
+                        sortable: true,
+                        formatter: function(value, row, index) {
+                            return value.slice(0, 10);
+                        }
+                    },
+                    {
+                        field: 'payType',
+                        title: '支付方式',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(payments, value);
+                        }
+                    },
+                    {
+                        field: 'payeeName',
+                        title: '收款人',
+                        align: 'center'
+                    },
+                    {
+                        field: 'setMealName',
+                        title: '套餐',
+                        align: 'center'
+                    },
+                    {
+                        field: 'photographTime',
+                        title: '拍摄时间',
+                        formatter: function(value, row, index) {
+                            return value.slice(0, 10);
+                        }
+                    },
+                    {
+                        field: 'choosePhoto',
+                        title: '是否选片',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(whethers, value);
+                        }
+                    },
+                    {
+                        field: 'receiveFinishedProduct',
+                        title: '是否领取成品',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(whethers, value);
+                        }
+                    },
+                    {
+                        field: 'remark',
+                        title: '备注'
+                    }],
+                    onPostBody: function(){
+                        $.get("/txs/index/count",function(data, status){
+                            $("#photographSpan").text(data.photograph);
+                            $("#chooseSpan").text(data.choose);
+                            $("#finishedSpan").text(data.finished);
+                        })
+                    }
+                };
+            $.table.init(options);
+            $("a.countTag").click(function(){
+                var tag = $(this).attr("id");
+                $.table.destroy();
+                options["url"] = "/txs/index/" + tag;
+                $.table.init(options);
+            });
+        });
     </script>
 </body>
 </html>

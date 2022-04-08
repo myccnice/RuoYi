@@ -79,6 +79,7 @@ public class OrderController extends BaseController {
         String loginName = getLoginName();
         param.setCreateBy(loginName);
         param.setUpdateBy(loginName);
+        countCache.clear();
         return toAjax(orderService.insert(param));
     }
 
@@ -97,6 +98,7 @@ public class OrderController extends BaseController {
     @ResponseBody
     public AjaxResult editSave(@Validated TxsOrder param) {
         param.setUpdateBy(getLoginName());
+        countCache.clear();
         return toAjax(orderService.update(param));
     }
 }

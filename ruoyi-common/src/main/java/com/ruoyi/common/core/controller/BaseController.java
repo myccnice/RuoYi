@@ -2,7 +2,10 @@ package com.ruoyi.common.core.controller;
 
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -30,9 +33,11 @@ import com.ruoyi.common.utils.sql.SqlUtil;
  * 
  * @author ruoyi
  */
-public class BaseController
-{
+public class BaseController {
+
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    protected final Map<String, Integer> countCache = new HashMap<>();
 
     /**
      * 将前台传递过来的日期格式的字符串，自动转化为Date类型

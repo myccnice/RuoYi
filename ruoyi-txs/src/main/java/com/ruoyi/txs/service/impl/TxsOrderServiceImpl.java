@@ -2,6 +2,7 @@ package com.ruoyi.txs.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ruoyi.common.constant.dic.Whether;
+import com.ruoyi.common.utils.CollectionUtil;
 import com.ruoyi.txs.domain.TxsCustomer;
 import com.ruoyi.txs.domain.TxsOrder;
 import com.ruoyi.txs.mapper.OrderDao;
@@ -80,6 +82,9 @@ public class TxsOrderServiceImpl implements TxsOrderService {
     @Override
     public List<TxsOrder> selectList(TxsOrder param) {
         List<TxsOrder> orders = orderDao.selectList(param);
+        if (CollectionUtil.isEmpty(orders)) {
+            return Collections.emptyList();
+        }
         // 设置客户姓名
         txsCustomerService.wrapForOrder(orders);
         // 设置套餐名称
@@ -110,6 +115,36 @@ public class TxsOrderServiceImpl implements TxsOrderService {
         customer.setFullName(param.getCustomerName());
         customer.setPhoneNumber(param.getCustomerPhone());
         txsCustomerService.update(customer);
+        // 如果选片了未设置拍摄时间，则设置当前时间为拍摄时间
+        if (Whether.YES.equals(param.getChoosePhoto()) && param.getPhotographTime() == null) {
+            param.setPhotographTime(new Date());
+        }
+        // 如果领取了成品，则默认设置已经选片
+        if (Whether.YES.equals(param.getReceiveFinishedProduct())) {
+            param.setChoosePhoto(Whether.YES);
+        }
         return orderDao.update(param);
+    }
+
+    @Override
+    public List<TxsOrder> queryNotChoosePhoto() {
+        return orderDao.queryNotChoosePhoto();
+    }
+
+    @Override
+    public List<TxsOrder> queryNotPhotograph() {
+        return orderDao.queryNotPhotograph();
+    }
+
+    @Override
+    public List<TxsOrder> notFinishedOrderList() {
+        TxsOrder param = new TxsOrder();
+        param.setChoosePhoto(Whether.YES);
+        param.setReceiveFinishedProduct(Whether.NO);
+        List<TxsOrder> orders = orderDao.selectList(param);
+        if (CollectionUtil.isEmpty(orders)) {
+            return Collections.emptyList();
+        }
+        return orders;
     }
 }
