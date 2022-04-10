@@ -45,7 +45,7 @@
                     <p class="m-t-md">兔先生摄影，留着你的美好</p>
                     <input type="text"     name="username" class="form-control uname"     placeholder="用户名" value="admin"    />
                     <input type="password" name="password" class="form-control pword"     placeholder="密码"   value="admin123" />
-                    <div class="row m-t" th:if="${captchaEnabled==true}">
+                    <!-- <div class="row m-t" th:if="${captchaEnabled==true}">
                         <div class="col-xs-6">
                             <input type="text" name="validateCode" class="form-control code" placeholder="验证码" maxlength="5" />
                         </div>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="checkbox-custom" th:if="${isRemembered}" th:classappend="${captchaEnabled==false} ? 'm-t'">
                         <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme">记住我</label>
-                    </div>
+                    </div> -->
                     <button class="btn btn-success btn-block" id="btnSubmit" data-loading="正在验证登录，请稍候...">登录</button>
                 </form>
             </div>

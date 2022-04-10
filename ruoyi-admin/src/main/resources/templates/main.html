@@ -75,7 +75,11 @@
                     {
                         field: 'photographTime',
                         title: '拍摄时间',
+                        align: 'center',
                         formatter: function(value, row, index) {
+                            if (!value) {
+                                return "-";
+                            }
                             return value.slice(0, 10);
                         }
                     },

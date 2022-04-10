@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </set>
         WHERE id = #{id}
     </update>
-    <insert id="insert" parameterType="TxsCustomer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <insert id="insert" parameterType="TxsCustomer" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO txs_customer(
             fullName, sex, phoneNumber, remark, createBy, createTime, updateBy, updateTime
         )values(

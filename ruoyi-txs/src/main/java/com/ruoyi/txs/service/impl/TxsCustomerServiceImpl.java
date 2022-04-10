@@ -64,7 +64,7 @@ public class TxsCustomerServiceImpl implements TxsCustomerService {
     public int insert(TxsCustomer param) {
         param.setUpdateTime(new Date());
         param.setCreateTime(new Date());
-        param.setId(dao.insert(param));
+        dao.insert(param);
         return 1;
     }
 
