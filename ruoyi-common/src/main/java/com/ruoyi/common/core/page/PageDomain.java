@@ -24,11 +24,16 @@ public class PageDomain
     /** 分页参数合理化 */
     private Boolean reasonable = true;
 
+    private boolean system;
+
     public String getOrderBy()
     {
         if (StringUtils.isEmpty(orderByColumn))
         {
             return "";
+        }
+        if (system) {
+            return StringUtils.toUnderScoreCase(orderByColumn) + " " + isAsc;
         }
         return orderByColumn + " " + isAsc;
     }
@@ -86,4 +91,13 @@ public class PageDomain
     {
         this.reasonable = reasonable;
     }
+
+    public boolean isSystem() {
+        return system;
+    }
+
+    public void setSystem(boolean system) {
+        this.system = system;
+    }
+
 }

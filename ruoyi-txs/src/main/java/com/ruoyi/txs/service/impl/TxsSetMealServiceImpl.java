@@ -100,7 +100,7 @@ public class TxsSetMealServiceImpl implements TxsSetMealService {
         }
         Map<Long, TxsSetMeal> customerMap = CollectionUtil.toMap(customerList);
         for (TxsOrder order : orders) {
-            TxsSetMeal tsm = customerMap.get(order.getCustomerId());
+            TxsSetMeal tsm = customerMap.get(order.getSetMealId());
             if (tsm != null) {
                 order.setSetMealName(tsm.getName());
             }

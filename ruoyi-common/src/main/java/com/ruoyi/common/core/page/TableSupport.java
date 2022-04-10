@@ -45,6 +45,7 @@ public class TableSupport
         pageDomain.setOrderByColumn(ServletUtils.getParameter(ORDER_BY_COLUMN));
         pageDomain.setIsAsc(ServletUtils.getParameter(IS_ASC));
         pageDomain.setReasonable(ServletUtils.getParameterToBool(REASONABLE));
+        pageDomain.setSystem(ServletUtils.getUrl().contains("/system/"));
         return pageDomain;
     }
 

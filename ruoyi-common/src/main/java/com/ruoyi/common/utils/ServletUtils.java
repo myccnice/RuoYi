@@ -177,4 +177,11 @@ public class ServletUtils
         }
         return flag;
     }
+
+    /**
+     * 获取请求地址
+     */
+    public static String getUrl() {
+        return getRequest().getRequestURI();
+    }
 }
