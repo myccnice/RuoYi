@@ -6,9 +6,9 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://192.168.1.206/ry?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-                username: erp
-                password: tTdAdf212
+                url: jdbc:mysql://rm-bp127q33c9a3mp5nd.mysql.rds.aliyuncs.com/txs?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                username: txs_admin
+                password: 6qL$ueiG$vNcIcXS
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
