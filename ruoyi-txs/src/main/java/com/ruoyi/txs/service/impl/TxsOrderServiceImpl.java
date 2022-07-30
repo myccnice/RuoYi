@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ruoyi.common.constant.dic.Whether;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.CollectionUtil;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.txs.domain.TxsCustomer;
 import com.ruoyi.txs.domain.TxsOrder;
 import com.ruoyi.txs.mapper.OrderDao;
@@ -124,6 +126,15 @@ public class TxsOrderServiceImpl implements TxsOrderService {
             param.setChoosePhoto(Whether.YES);
         }
         return orderDao.update(param);
+    }
+
+    @Override
+    public int deleteByIds(String ids) {
+        if (StringUtils.isEmpty(ids)) {
+            return 0;
+        }
+        Long[] idArr = Convert.toLongArray(ids);
+        return orderDao.deleteByIds(idArr);
     }
 
     @Override

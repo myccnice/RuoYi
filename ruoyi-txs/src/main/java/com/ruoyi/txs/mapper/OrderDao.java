@@ -34,4 +34,6 @@ public interface OrderDao {
      * 查询未选片的订单
      */
     List<TxsOrder> queryNotChoosePhoto();
+
+    int deleteByIds(Long[] ids);
 }

@@ -25,6 +25,8 @@ public interface TxsOrderService {
 
     int update(TxsOrder param);
 
+    int deleteByIds(String ids);
+
     List<TxsOrder> queryNotPhotograph();
 
     List<TxsOrder> queryNotChoosePhoto();

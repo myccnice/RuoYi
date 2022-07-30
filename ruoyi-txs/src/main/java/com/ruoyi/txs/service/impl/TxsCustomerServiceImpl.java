@@ -48,6 +48,9 @@ public class TxsCustomerServiceImpl implements TxsCustomerService {
     @Override
     @Transactional
     public int deleteByIds(String ids) {
+        if (StringUtils.isEmpty(ids)) {
+            return 0;
+        }
         Long[] idArr = Convert.toLongArray(ids);
         return dao.deleteByIds(idArr);
     }

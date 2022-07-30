@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="colums">
         id, orderNo, customerId, payTime, payType, payeeName, setMealId, 
         photographTime, choosePhoto, laterConsumption, receiveFinishedProduct,
-        payAmount, remark, createBy, createTime, updateBy, updateTime
+        payAmount, remark, createBy, createTime, updateBy, updateTime, deleted
     </sql>
     <select id="selectList" parameterType="TxsOrder" resultType="TxsOrder">
         SELECT o.* FROM txs_order AS o
@@ -53,6 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="params.endTime != null and params.endTime != ''">
                 AND date_format(o.payTime,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
             </if>
+            AND O.deleted = 2
         </where>
     </select>
     <select id="selectById" parameterType="Long" resultType="TxsOrder">
@@ -80,9 +81,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insert" parameterType="TxsOrder" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO txs_order(<include refid="colums"/>)values(
             #{id}, #{orderNo}, #{customerId}, #{payTime}, #{payType},
-            #{payeeName}, #{setMealId}, #{photographTime}, #{choosePhoto}, 
+            #{payeeName}, #{setMealId}, #{photographTime}, #{choosePhoto},
             #{laterConsumption}, #{receiveFinishedProduct}, #{payAmount},
-            #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
+            #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}, 2
         )
     </insert>
     <select id="countToday" parameterType="String" resultType="Integer">
@@ -90,12 +91,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="queryNotPhotograph" parameterType="TxsOrder" resultType="TxsOrder">
         SELECT <include refid="colums"/> FROM txs_order 
-        WHERE photographTime &gt; now() OR photographTime IS NULL
+        WHERE (photographTime &gt; now() OR photographTime IS NULL)
+        AND `deleted` = 2
         ORDER BY photographTime ASC
     </select>
     <select id="queryNotChoosePhoto" parameterType="TxsOrder" resultType="TxsOrder">
         SELECT <include refid="colums"/> FROM txs_order 
-        WHERE photographTime IS NOT NULL AND photographTime &lt; now() AND choosePhoto = '2'
+        WHERE photographTime IS NOT NULL
+        AND photographTime &lt; now()
+        AND choosePhoto = '2'
+        AND `deleted` = 2
         ORDER BY photographTime ASC
     </select>
+    <update id="deleteByIds" parameterType="Long">
+        UPDATE txs_order
+        SET `deleted` = 1
+        WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach> 
+    </update>
 </mapper> 

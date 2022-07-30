@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.constant.dic.Whether;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +46,12 @@ public class BaseEntity implements Serializable {
 
     /** 备注 */
     private String remark;
+
+    /**
+     * 是否删除标志
+     * @see Whether
+     */
+    private Integer deleted;
 
     /** 请求参数 */
     private Map<String, Object> params = new HashMap<>();

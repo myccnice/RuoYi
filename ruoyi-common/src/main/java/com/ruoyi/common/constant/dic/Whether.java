@@ -11,4 +11,8 @@ public interface Whether {
     String YES = "1";
 
     String NO = "2";
+
+    int YES_INT = 1;
+
+    int NO_INT = 2;
 }

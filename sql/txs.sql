@@ -43,28 +43,28 @@ CREATE TABLE `txs_customer`  (
 -- ----------------------------
 -- 订单信息表
 -- ----------------------------
-DROP TABLE IF EXISTS `txs_order`;
 CREATE TABLE `txs_order`  (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `orderNo` char(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单编号',
-  `customerId` bigint UNSIGNED NOT NULL COMMENT '客户编号',
+  `customerId` bigint(20) UNSIGNED NOT NULL COMMENT '客户编号',
   `payTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '付款时间',
-  `payType` tinyint UNSIGNED NULL DEFAULT 0 COMMENT '支付方式',
+  `payType` tinyint(1) UNSIGNED NULL DEFAULT 0 COMMENT '支付方式',
   `payeeName` char(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '收款人',
-  `setMealId` bigint NOT NULL COMMENT '套餐编号',
+  `setMealId` bigint(20) NOT NULL COMMENT '套餐编号',
   `photographTime` timestamp NULL DEFAULT NULL COMMENT '拍摄时间',
-  `choosePhoto` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '2' COMMENT '是否选片',
+  `choosePhoto` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1' COMMENT '是否选片',
   `laterConsumption` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '后期消费',
-  `receiveFinishedProduct` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '2' COMMENT '是否领取成品',
+  `receiveFinishedProduct` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1' COMMENT '是否领取成品',
   `payAmount` decimal(10, 3) UNSIGNED NOT NULL COMMENT '订单金额',
   `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '套餐备注说明',
   `createBy` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateBy` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '修改人',
-  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最近更新时间',
+  `deleted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '是否删除：1是；2否',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_orderNo`(`orderNo`) USING BTREE COMMENT '订单编号索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 136 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- 订单流程表

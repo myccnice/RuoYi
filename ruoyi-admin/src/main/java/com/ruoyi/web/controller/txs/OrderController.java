@@ -101,4 +101,16 @@ public class OrderController extends BaseController {
         countCache.clear();
         return toAjax(orderService.update(param));
     }
+
+    @RequiresPermissions("txs:order:remove")
+    @Log(title = TITLE, businessType = BusinessType.DELETE)
+    @PostMapping("/remove")
+    @ResponseBody
+    public AjaxResult remove(String ids) {
+        try {
+            return toAjax(orderService.deleteByIds(ids));
+        } catch (Exception e) {
+            return error(e.getMessage());
+        }
+    }
 }

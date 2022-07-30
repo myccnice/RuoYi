@@ -40,12 +40,12 @@ public class TableSupport
     public static PageDomain getPageDomain()
     {
         PageDomain pageDomain = new PageDomain();
+        pageDomain.setSystem(!ServletUtils.getUrl().contains("/txs/"));
         pageDomain.setPageNum(ServletUtils.getParameterToInt(PAGE_NUM));
         pageDomain.setPageSize(ServletUtils.getParameterToInt(PAGE_SIZE));
         pageDomain.setOrderByColumn(ServletUtils.getParameter(ORDER_BY_COLUMN));
         pageDomain.setIsAsc(ServletUtils.getParameter(IS_ASC));
         pageDomain.setReasonable(ServletUtils.getParameterToBool(REASONABLE));
-        pageDomain.setSystem(ServletUtils.getUrl().contains("/system/"));
         return pageDomain;
     }
 

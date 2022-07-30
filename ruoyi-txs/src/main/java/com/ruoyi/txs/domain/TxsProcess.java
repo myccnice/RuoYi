@@ -31,9 +31,4 @@ public class TxsProcess extends BaseEntity {
      */
     @Excel(name = "预约天数", cellType = ColumnType.NUMERIC)
     private int days;
-
-    /**
-     * 是否删除（0正常 1删除）
-     */
-    private int deleted;
 }
