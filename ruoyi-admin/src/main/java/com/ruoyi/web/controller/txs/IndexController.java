@@ -35,7 +35,6 @@ public class IndexController extends BaseController {
     public TableData<TxsOrder> notPhotograph(TxsOrder param) {
         startPage();
         List<TxsOrder> list = txsCountService.notPhotographOrderList();
-        countCache.put(PageTag.NOT_PHOTOGRAPH, list.size());
         return TableData.getInfo(list);
     }
 
@@ -43,7 +42,6 @@ public class IndexController extends BaseController {
     public TableData<TxsOrder> notChoosePhoto(TxsOrder param) {
         startPage();
         List<TxsOrder> list = txsCountService.notChoosePhotoOrderList();
-        countCache.put(PageTag.NOT_CHOOSE_PHOTO, list.size());
         return TableData.getInfo(list);
     }
 
@@ -51,27 +49,17 @@ public class IndexController extends BaseController {
     public TableData<TxsOrder> notFinished(TxsOrder param) {
         startPage();
         List<TxsOrder> list = txsCountService.notFinishedOrderList();
-        countCache.put(PageTag.NOT_FINISHED, list.size());
         return TableData.getInfo(list);
     }
 
     @GetMapping("/count")
     public JSONObject getCount() {
-        Integer photograph = countCache.get(PageTag.NOT_PHOTOGRAPH);
-        if (photograph == null) {
-            photograph = orderService.queryNotPhotograph().size();
-            countCache.put(PageTag.NOT_PHOTOGRAPH, photograph);
-        }
-        Integer choose = countCache.get(PageTag.NOT_CHOOSE_PHOTO);
-        if (choose == null) {
-            choose = orderService.queryNotChoosePhoto().size();
-            countCache.put(PageTag.NOT_CHOOSE_PHOTO, choose);
-        }
-        Integer finished = countCache.get(PageTag.NOT_FINISHED);
-        if (finished == null) {
-            finished = orderService.notFinishedOrderList().size();
-            countCache.put(PageTag.NOT_FINISHED, finished);
-        }
+        Integer photograph = orderService.queryNotPhotograph().size();
+
+        Integer choose = orderService.queryNotChoosePhoto().size();
+
+        Integer finished = orderService.notFinishedOrderList().size();
+
         JSONObject json = new JSONObject();
         json.put(PageTag.NOT_PHOTOGRAPH, photograph);
         json.put(PageTag.NOT_CHOOSE_PHOTO, choose);

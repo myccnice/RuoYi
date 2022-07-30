@@ -2,17 +2,17 @@ package com.ruoyi.common.core.controller;
 
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -36,8 +36,6 @@ import com.ruoyi.common.utils.sql.SqlUtil;
 public class BaseController {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    protected final Map<String, Integer> countCache = new HashMap<>();
 
     /**
      * 将前台传递过来的日期格式的字符串，自动转化为Date类型
